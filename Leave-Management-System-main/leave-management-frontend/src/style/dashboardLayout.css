@@ -1,0 +1,227 @@
+
+.profile-header {
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.avatar-circle {
+    width: 90px;
+    height: 90px;
+    background-color: #0284c7;
+    color: #ffffff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 16px auto;
+}
+/* Container workspace that matches the exact gray background */
+.dashboard-container {
+    background-color: #f8fafc; 
+    min-height: 100vh;
+    padding: 32px;
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/* 💡 THE SECRET TO THE PROFESSIONAL LOOK: Fixed max-width and clean layout columns */
+.dashboard-grid {
+    display: flex;
+    gap: 32px;
+    max-width: 1280px; /* Prevents the dashboard from stretching too wide on big screens */
+    margin: 0;         /* Aligns the content neatly to the left side */
+    align-items: flex-start;
+}
+
+/* Left Profile Card: Matches the exact width from your picture */
+.profile-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 20px; /* Matches the smooth rounded corners */
+    width: 390px;        /* Fixed professional width */
+    padding: 32px 24px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+    flex-shrink: 0;      /* Prevents the card from squeezing */
+}
+
+.profile-header {
+    text-align: center;
+    margin-bottom: 28px;
+}
+
+/* The blue circle background for your avatar icon */
+.akdital-avatar-wrapper {
+    width: 96px;
+    height: 96px;
+    margin: 0 auto 16px auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.employee-name {
+    font-size: 22px;
+    font-weight: 800; /* Extra bold professional typography */
+    color: #1e293b;
+    margin: 0 0 6px 0;
+    letter-spacing: -0.5px;
+}
+
+.employee-role {
+    font-size: 14px;
+    color: #0284c7;
+    font-weight: 700;
+    margin: 0;
+    letter-spacing: 0.5px;
+}
+
+.general-info-section {
+    margin-top: 24px;
+}
+
+.section-title {
+    font-size: 12px;
+    font-weight: 700;
+    color: #94a3b8;
+    margin-bottom: 16px;
+    letter-spacing: 0.5px;
+}
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    font-size: 14px;
+    padding: 14px 0;
+    border-bottom: 1px solid #f1f5f9; /* Cleaner than dashed lines */
+}
+
+.info-label {
+    color: #64748b;
+    font-weight: 500;
+    min-width: 80px;
+}
+
+.info-value {
+    color: #334155;
+    font-weight: 600;
+    text-align: right;
+    max-width: 250px;
+    line-height: 1.4;
+}
+
+.time-off-section {
+    margin-top: 36px;
+}
+
+.time-off-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.stat-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 0;
+    font-size: 15px;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.stat-label {
+    color: #475569;
+    font-weight: 500;
+}
+
+.stat-value {
+    font-weight: 800;
+    font-size: 16px;
+}
+
+/* Colors matching the Akdital theme badges */
+.text-green { color: #22c55e; }
+.text-orange { color: #f59e0b; }
+.text-blue { color: #0284c7; }
+
+/* ------------------------------------------------------------- */
+/* RIGHT FEED COLUMN LAYOUT */
+/* ------------------------------------------------------------- */
+
+.dashboard-feed-stack {
+    flex-grow: 1;      /* Allows the panels to scale beautifully */
+    max-width: 820px;  /* Limits the panels to match the image ratio */
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* White background panels for Announcements and Tasks */
+.feed-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 20px;
+    padding: 28px;
+}
+
+.announcements-card {
+    min-height: 180px; /* Perfect proportional height for announcements */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.empty-state {
+    text-align: center;
+    color: #64748b;
+}
+
+.akdital-megaphone-wrapper {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 12px auto;
+}
+
+.empty-state p {
+    font-size: 14px;
+    color: #0284c7;
+    margin: 0;
+    font-weight: 500;
+}
+
+.panel-title {
+    font-size: 18px;
+    font-weight: 800;
+    color: #1e293b;
+    margin: 0 0 16px 0;
+}
+
+/* Bordered inner box for clear tasks */
+.empty-state-bordered {
+    border: 1px solid #e0f2fe;
+    background-color: #f0f9ff;
+    border-radius: 16px;
+    text-align: center;
+    padding: 48px 24px;
+}
+
+.akdital-verified-list-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 14px;
+}
+
+.empty-state-bordered h4 {
+    margin: 0 0 6px 0;
+    font-size: 18px;
+    font-weight: 800;
+    color: #0369a1;
+}
+
+.empty-state-bordered p {
+    margin: 0;
+    font-size: 14px;
+    color: #0284c7;
+    font-weight: 500;
+}

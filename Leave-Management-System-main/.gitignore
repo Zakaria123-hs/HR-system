@@ -1,0 +1,41 @@
+# Backend (inside backend folder)
+leave-management-backend/*.log
+leave-management-backend/.DS_Store
+leave-management-backend/.env
+leave-management-backend/.env.backup
+leave-management-backend/.env.production
+leave-management-backend/.phpactor.json
+leave-management-backend/.phpunit.result.cache
+leave-management-backend/.fleet
+leave-management-backend/.idea
+leave-management-backend/.nova
+leave-management-backend/.phpunit.cache
+leave-management-backend/.vscode
+leave-management-backend/.zed
+leave-management-backend/auth.json
+leave-management-backend/node_modules/
+leave-management-backend/public/build/
+leave-management-backend/public/hot/
+leave-management-backend/public/storage/
+leave-management-backend/storage/*.key
+leave-management-backend/storage/pail/
+leave-management-backend/vendor/
+leave-management-backend/Homestead.json
+leave-management-backend/Homestead.yaml
+leave-management-backend/Thumbs.db
+leave-management-backend/__pycache__/
+
+# Frontend (inside frontend folder)
+leave-management-frontend/node_modules/
+leave-management-frontend/.env
+leave-management-frontend/dist/
+leave-management-frontend/build/
+leave-management-frontend/.next/
+
+# Root level
+.DS_Store
+Thumbs.db
+node_modules/
+package.json
+package-lock.json
+jsj.txt

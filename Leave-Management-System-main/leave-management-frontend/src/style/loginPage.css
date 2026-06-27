@@ -1,0 +1,153 @@
+/* Container to center everything on the screen */
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-height: 100vh;
+    background-color: #e0e5ec; /* Light grayish-blue background */
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* The main Neumorphic card */
+.login-card {
+    background-color: #e0e5ec;
+    width: 100%;
+    max-width: 400px;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 9px 9px 16px rgb(163,177,198,0.6), -9px -9px 16px rgba(255,255,255, 0.5);
+}
+
+/* Header Text Styling */
+.login-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.logo-icon {
+    color: #4a5568;
+    margin-bottom: 15px;
+}
+
+.login-header h2 {
+    margin: 0;
+    color: #2d3748;
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.login-header .subtitle {
+    margin: 5px 0 15px;
+    color: #4a5568;
+    font-size: 16px;
+}
+
+.login-header .instruction {
+    margin: 0;
+    color: #718096;
+    font-size: 13px;
+}
+
+/* Form Elements */
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+.input-group label {
+    font-size: 13px;
+    color: #4a5568;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+/* Neumorphic Inset Inputs */
+.input-group input {
+    padding: 12px 15px;
+    border: none;
+    border-radius: 10px;
+    background-color: #e0e5ec;
+    box-shadow: inset 4px 4px 6px #cbced1, inset -4px -4px 6px #ffffff;
+    font-size: 14px;
+    color: #2d3748;
+    outline: none;
+    transition: all 0.2s ease-in-out;
+}
+
+.input-group input:focus {
+    box-shadow: inset 6px 6px 8px #cbced1, inset -6px -6px 8px #ffffff;
+}
+
+.forgot-password {
+    text-align: right;
+    margin-top: -5px;
+    margin-bottom: 10px;
+}
+
+.forgot-password a {
+    color: #2d3748;
+    font-size: 12px;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+/* Buttons */
+.btn-primary {
+    background-color: #1a202c;
+    color: #ffffff;
+    border: none;
+    padding: 14px;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.1s, box-shadow 0.1s;
+    box-shadow: 4px 4px 8px rgb(163,177,198,0.5), -4px -4px 8px rgba(255,255,255, 0.5);
+}
+
+.btn-primary:active {
+    transform: translateY(2px);
+    box-shadow: inset 4px 4px 8px rgba(0,0,0,0.5);
+}
+
+.btn-google {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    background-color: transparent;
+    color: #4a5568;
+    border: 1px solid #cbced1;
+    padding: 12px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    margin-top: 15px;
+    transition: background-color 0.2s;
+}
+
+.btn-google:hover {
+    background-color: rgba(255,255,255,0.2);
+}
+
+.signup-link {
+    text-align: center;
+    margin-top: 25px;
+    font-size: 13px;
+    color: #718096;
+}
+
+.signup-link a {
+    color: #2d3748;
+    font-weight: 600;
+    text-decoration: none;
+}
