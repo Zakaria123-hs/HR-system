@@ -11,11 +11,15 @@ class LeaveRequestController extends Controller
 {
     // ── Helpers ──────────────────────────────────────────────────────────────
 
+
+    
     private function computeDays(string $start, string $end): int
     {
         $year = Carbon::parse($start)->year;
+        
         $holidays = DB::table('holidays')
-            ->where('year', $year)
+            // ✅ Use whereYear on your 'date' column instead!
+            ->whereYear('date', $year) 
             ->pluck('date')
             ->map(fn($d) => Carbon::parse($d)->toDateString())
             ->toArray();
@@ -109,11 +113,9 @@ class LeaveRequestController extends Controller
         // ── Paid leave ────────────────────────────────────────────────────────
 
         // 3. Balance check
-        $year    = Carbon::parse($data['start_date'])->year;
         $balance = DB::table('leave_balances')
             ->where('user_id', $user->id)
             ->where('leave_type_id', $data['leave_type_id'])
-            ->where('year', $year)
             ->first();
 
         if (!$balance) {
