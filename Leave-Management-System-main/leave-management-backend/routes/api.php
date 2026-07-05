@@ -16,6 +16,13 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
 Route::middleware('auth:sanctum')->get('/user', fn(Request $r) => $r->user());
 
+
+// Authenticated endpoints for employees
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/attendance/generate-qr', [AttendanceController::class, 'generateToken']);
+    Route::post('/attendance/scan-qr', [AttendanceController::class, 'scanToken']);
+});
+
 // All
 Route::middleware(['auth:sanctum', 'role:employee,supervisor,hr'])->group(function () {
     Route::get('/leave-types', [LeaveRequestController::class, 'leaveTypes']);
