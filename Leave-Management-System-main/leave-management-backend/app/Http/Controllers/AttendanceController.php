@@ -46,6 +46,7 @@ class AttendanceController extends Controller
         $attendance = Attendance::where('user_id', $user->id)
                                 ->where('date', $today)
                                 ->first();
+                                
 
         // 🚪 CASE 1: CLOCK IN (First scan of the day)
         if (!$attendance) {
