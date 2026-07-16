@@ -18,8 +18,8 @@ Route::middleware('auth:sanctum')->get('/user', fn(Request $r) => $r->user());
 
 
 // Authenticated endpoints for employees
+Route::get('/attendance/generate-qr', [AttendanceController::class, 'generateToken']);
 Route::middleware('auth:sanctum')->group(function () {
-    Route::get('/attendance/generate-qr', [AttendanceController::class, 'generateToken']);
     Route::post('/attendance/scan-qr', [AttendanceController::class, 'scanToken']);
 });
 
