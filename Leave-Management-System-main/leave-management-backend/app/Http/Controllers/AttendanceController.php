@@ -41,6 +41,8 @@ class AttendanceController extends Controller
             return response()->json(['error' => 'Code QR expiré ou invalide. Veuillez réessayer.'], 422);
         }
 
+        $validToken->delete();
+
         // Step B: Look for an existing attendance log for today
         $attendance = Attendance::where('user_id', $user->id)
                                 ->where('date', $today)
