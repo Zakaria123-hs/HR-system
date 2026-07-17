@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import QRCode from 'react-qr-code';
+// Import your central API service
+import { generateQrToken } from '../api/axios'; 
 
 const QrGenerator = () => {
     const [token, setToken] = useState('');
@@ -8,12 +9,13 @@ const QrGenerator = () => {
     const [error, setError] = useState(null);
     const [timeLeft, setTimeLeft] = useState(15);
 
-    // 1. Function to fetch the new token from Laravel backend
+    // 1. Function using your custom API service file
     const fetchNewToken = async () => {
         try {
             setError(null);
-            // Replace with your actual Laravel API URL
-            const response = await axios.get('http://localhost:8000/api/attendance/generate-qr');
+            
+            // Calling your integrated endpoint
+            const response = await generateQrToken();
             
             if (response.data && response.data.token) {
                 setToken(response.data.token);
@@ -27,9 +29,8 @@ const QrGenerator = () => {
         }
     };
 
-    // 2. Lifecycle effect: Runs once on load, starts 15-second loop, and handles countdown UI
+    // 2. Lifecycle effect: Runs once on load, starts 15-second loop
     useEffect(() => {
-        // Fetch the very first token immediately on component mount
         fetchNewToken();
 
         // Interval 1: Fetch a brand new token from backend every 15 seconds
