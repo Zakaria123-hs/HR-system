@@ -3,25 +3,31 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\QrCode;
+use App\Models\Attendance; // Fixed: Imported the Attendance model
+use Illuminate\Support\Str; // Fixed: Imported the Str helper class
+use Carbon\Carbon; // Fixed: Imported Carbon for dates and times
 
 class AttendanceController extends Controller
 {
     public function generateToken()
-        {
-            QrCode::query()->delete();
+    {
+        // 1. Clear out old entries to keep the database light
+        QrCode::query()->delete();
 
-            // 2. Create the single, active token
-            $qrCode = QrCode::create([
-                'token' => Str::random(64),
-                'expires_at' => Carbon::now()->addSeconds(15),
-                'is_active' => true,
-            ]);
+        // 2. Create the single, active token
+        $qrCode = QrCode::create([
+            'token' => Str::random(64),
+            'expires_at' => Carbon::now()->addSeconds(15),
+            'is_active' => true,
+        ]);
 
-            return response()->json([
-                'token' => $qrCode->token,
-                'expires_in_seconds' => 15
-            ], 200);
-        }
+        return response()->json([
+            'token' => $qrCode->token,
+            'expires_in_seconds' => 15
+        ], 200);
+    }
+
     public function scanToken(Request $request)
     {
         $request->validate([
@@ -41,6 +47,7 @@ class AttendanceController extends Controller
             return response()->json(['error' => 'Code QR expiré ou invalide. Veuillez réessayer.'], 422);
         }
 
+        // 🔒 Immediately delete it so no other phone can intercept it
         $validToken->delete();
 
         // Step B: Look for an existing attendance log for today
@@ -59,7 +66,7 @@ class AttendanceController extends Controller
                 'date' => $today,
                 'check_in' => $now,
                 'status' => $status,
-            ]);
+                ]);
 
             return response()->json([
                 'message' => 'Pointage entrée enregistré ! Bon travail.',
