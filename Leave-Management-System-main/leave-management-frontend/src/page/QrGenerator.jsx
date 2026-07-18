@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import QRCode from 'react-qr-code';
 // Import your central API service
-import { generateQrToken } from '../api/axios'; 
+import { generateQrToken } from '../services/Qr'; 
 
 const QrGenerator = () => {
     const [token, setToken] = useState('');

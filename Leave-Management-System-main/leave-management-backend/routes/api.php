@@ -10,6 +10,7 @@ use App\Http\Controllers\DocumentRequestController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\leaveNotificationController;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\AttendanceController;
 
 // Auth
 Route::post('/login', [AuthController::class, 'login']);

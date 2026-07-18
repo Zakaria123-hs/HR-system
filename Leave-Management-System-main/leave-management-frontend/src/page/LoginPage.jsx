@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import QrGenerator from "./QrGenerator";
 
 export default function LoginPage() {
     const { login }             = useAuth();
@@ -54,6 +55,17 @@ export default function LoginPage() {
                 </div>
                 <p className="text-center text-xs text-zinc-400 mt-6">Don't have an account? Contact your HR department.</p>
             </div>
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <QrGenerator/>
         </div>
     );
 }
