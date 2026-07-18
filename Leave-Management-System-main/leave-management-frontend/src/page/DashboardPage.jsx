@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { dashboardData } from "../services/employeeService";
 import { useNotifications } from "../hooks/useNotifications";
 import DashboardLayout from "../layouts/DashboardLayout";
+import QrScanner from "./QrScan";
 
 const Stat = ({ label, value, color = "text-zinc-900" }) => (
     <div className="flex items-center justify-between py-3 border-b border-zinc-100 last:border-0">
@@ -64,6 +65,7 @@ export default function DashboardPage() {
                     </div>
                 </div>
             )}
+            <QrScanner/>
         </DashboardLayout>
     );
 }

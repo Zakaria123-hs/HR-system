@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Html5QrcodeScanner } from 'html5-qrcode';
-import { scanQrToken } from '../api/axios'; // Integrated with your central API
+import { scanQrToken } from '../services/Qr'; // Integrated with your central API
 
 const QrScanner = () => {
     const [scanResult, setScanResult] = useState(null);
