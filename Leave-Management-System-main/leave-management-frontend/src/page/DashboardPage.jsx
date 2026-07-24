@@ -65,7 +65,6 @@ export default function DashboardPage() {
                     </div>
                 </div>
             )}
-            <QrScanner/>
         </DashboardLayout>
     );
 }

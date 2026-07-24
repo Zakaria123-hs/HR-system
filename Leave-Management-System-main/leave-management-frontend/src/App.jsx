@@ -10,6 +10,7 @@ import HrDocumentsPage from "./page/HrDocumentsPage";
 import HrEmployeesPage from "./page/HrEmployeesPage";
 import CompanyHoliday from "./page/CompanyHoliday";
 import TeamPage from "./page/TeamPage";
+import QrGenerator from "./page/QrGenerator";
 
 const All   = ['employee', 'supervisor', 'hr'];
 const SupHr = ['supervisor', 'hr'];
@@ -19,6 +20,7 @@ const Guard = ({ roles, children }) => <ProtectedRoute role={roles}>{children}</
 function App() {
     return (
         <Routes>
+            <Route path="/qr" element={<QrGenerator/>}/>
             <Route path="/login" element={<LoginPage />} />
 
             {/* Shared */}
