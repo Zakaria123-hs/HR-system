@@ -65,7 +65,7 @@ const QrScanner = () => {
     };
 
     const onScanFailure = (error) => {
-        // silent - continuous scanning
+        console.log('faillescan', error)
     };
 
     const handleReset = () => {
