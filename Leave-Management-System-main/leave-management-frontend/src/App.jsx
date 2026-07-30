@@ -11,6 +11,8 @@ import HrEmployeesPage from "./page/HrEmployeesPage";
 import CompanyHoliday from "./page/CompanyHoliday";
 import TeamPage from "./page/TeamPage";
 import QrGenerator from "./page/QrGenerator";
+import QrScanner from "./page/QrScan";
+
 
 const All   = ['employee', 'supervisor', 'hr'];
 const SupHr = ['supervisor', 'hr'];
@@ -26,6 +28,7 @@ function App() {
             {/* Shared */}
             <Route path="/dashboard"    element={<Guard roles={All}><DashboardPage /></Guard>} />
             <Route path="/team"         element={<Guard roles={All}><TeamPage /></Guard>} />
+            <Route path="/Attendance"         element={<Guard roles={All}><QrScanner /></Guard>} />
             <Route path="/holidays"     element={<Guard roles={All}><CompanyHoliday /></Guard>} />
 
             {/* Employee + Supervisor */}

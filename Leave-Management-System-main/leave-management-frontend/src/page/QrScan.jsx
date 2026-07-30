@@ -1,8 +1,11 @@
 import { useState, useEffect, useRef } from 'react';
 import { Html5QrcodeScanner } from 'html5-qrcode';
 import { scanQrToken } from '../services/Qr'; // Integrated with your central API
+import { useNotifications } from "../hooks/useNotifications";
+import DashboardLayout from '../layouts/DashboardLayout';
 
 const QrScanner = () => {
+    const { notifications, unreadCount, fetchNotifications } = useNotifications();
     const [scanResult, setScanResult] = useState(null);
     const [scanError, setScanError] = useState(null);
     const [isProcessing, setIsProcessing] = useState(false);
@@ -75,44 +78,46 @@ const QrScanner = () => {
     };
 
     return (
-        <div style={styles.container}>
-            <div style={styles.card}>
-                <h1 style={styles.title}>Scanner un Code QR</h1>
-                <p style={styles.subtitle}>Cadrez le code QR de la tablette murale dans la zone de détection</p>
+        <DashboardLayout notifications={notifications} unreadCount={unreadCount} fetchNotifications={fetchNotifications}>
+            <div style={styles.container}>
+                <div style={styles.card}>
+                    <h1 style={styles.title}>Scanner un Code QR</h1>
+                    <p style={styles.subtitle}>Cadrez le code QR de la tablette murale dans la zone de détection</p>
 
-                {/* Camera Video Viewport */}
-                <div style={{ display: (scanResult || scanError) ? 'none' : 'block' }}>
-                    <div id="reader" style={styles.scannerViewport}></div>
-                </div>
+                    {/* Camera Video Viewport */}
+                    <div style={{ display: (scanResult || scanError) ? 'none' : 'block' }}>
+                        <div id="reader" style={styles.scannerViewport}></div>
+                    </div>
 
-                {isProcessing && <p style={styles.infoText}>Vérification en cours...</p>}
+                    {isProcessing && <p style={styles.infoText}>Vérification en cours...</p>}
 
-                {/* 🎉 SUCCESS CARD */}
-                {scanResult && (
-                    <div style={styles.successBox}>
-                        <div style={styles.iconCircle}>✓</div>
-                        <h3>{scanResult.message}</h3>
-                        <div style={styles.detailsList}>
-                            <p>⏱️ <strong>Heure :</strong> {scanResult.time}</p>
-                            {scanResult.type === 'check_out' && (
-                                <p>💼 <strong>Temps travaillé :</strong> {Math.round(scanResult.worked_minutes)} min</p>
-                            )}
+                    {/* 🎉 SUCCESS CARD */}
+                    {scanResult && (
+                        <div style={styles.successBox}>
+                            <div style={styles.iconCircle}>✓</div>
+                            <h3>{scanResult.message}</h3>
+                            <div style={styles.detailsList}>
+                                <p>⏱️ <strong>Heure :</strong> {scanResult.time}</p>
+                                {scanResult.type === 'check_out' && (
+                                    <p>💼 <strong>Temps travaillé :</strong> {Math.round(scanResult.worked_minutes)} min</p>
+                                )}
+                            </div>
+                            <button onClick={handleReset} style={styles.resetButton}>Terminer</button>
                         </div>
-                        <button onClick={handleReset} style={styles.resetButton}>Terminer</button>
-                    </div>
-                )}
+                    )}
 
-                {/* 🛑 ERROR CARD */}
-                {scanError && (
-                    <div style={styles.errorBox}>
-                        <div style={{ ...styles.iconCircle, backgroundColor: '#fee2e2', color: '#dc2626' }}>✕</div>
-                        <h3>Échec du pointage</h3>
-                        <p style={{ margin: '8px 0 24px 0' }}>{scanError}</p>
-                        <button onClick={handleReset} style={{ ...styles.resetButton, backgroundColor: '#dc2626' }}>Réessayer</button>
-                    </div>
-                )}
+                    {/* 🛑 ERROR CARD */}
+                    {scanError && (
+                        <div style={styles.errorBox}>
+                            <div style={{ ...styles.iconCircle, backgroundColor: '#fee2e2', color: '#dc2626' }}>✕</div>
+                            <h3>Échec du pointage</h3>
+                            <p style={{ margin: '8px 0 24px 0' }}>{scanError}</p>
+                            <button onClick={handleReset} style={{ ...styles.resetButton, backgroundColor: '#dc2626' }}>Réessayer</button>
+                        </div>
+                    )}
+                </div>
             </div>
-        </div>
+        </DashboardLayout>
     );
 };
 

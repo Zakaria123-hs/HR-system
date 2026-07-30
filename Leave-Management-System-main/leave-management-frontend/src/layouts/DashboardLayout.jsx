@@ -32,6 +32,7 @@ const pageTitles = {
     "/my-requests":        "My Leave Requests",
     "/my-documents":       "Document Requests",
     "/team":               "Team Directory",
+    "/Attendance":         "Attendance",
     "/holidays":           "Company Holidays",
     "/supervisor":         "Leave Validations",
     "/hr/leave":           "HR — Leave Approvals",
@@ -72,10 +73,10 @@ const DashboardLayout = ({ children, unreadCount = 0, notifications = [], fetchN
                 <nav className="flex-1 px-3 py-3 overflow-y-auto space-y-0.5">
 
                     {/* Everyone */}
-                    <NavLink to="/dashboard"   icon={Icon.dashboard} label="Dashboard"       isActive={p === "/dashboard"} />
+                    <NavLink to="/dashboard"   icon={Icon.dashboard} label="Dashboard"        isActive={p === "/dashboard"} />
                     <NavSection label="WORKFORCE" />
                     <NavLink to="/team"        icon={Icon.team}      label="Team"             isActive={p === "/team"} />
-                    <NavLink to="/Attendance"  icon={Icon.attendance}      label="Attendance"             isActive={p === "/Attendance"} />
+                    <NavLink to="/Attendance"  icon={Icon.attendance}      label="Attendance" isActive={p === "/Attendance"} />
                     <NavLink to="/holidays"    icon={Icon.calendar}  label="Holidays"         isActive={p === "/holidays"} />
 
                     {/* Employee + Supervisor: personal leave & docs */}
