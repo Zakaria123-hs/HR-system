@@ -2,12 +2,11 @@ import { useEffect, useState } from "react";
 import { dashboardData } from "../services/employeeService";
 import { useNotifications } from "../hooks/useNotifications";
 import DashboardLayout from "../layouts/DashboardLayout";
-import QrScanner from "./QrScan";
 
 const Stat = ({ label, value, color = "text-zinc-900" }) => (
-    <div className="flex items-center justify-between py-3 border-b border-zinc-100 last:border-0">
-        <span className="text-sm text-zinc-500">{label}</span>
-        <span className={`text-sm font-semibold ${color}`}>{value}</span>
+    <div className="flex items-center justify-between py-3 border-b border-zinc-100 last:border-0 gap-3">
+        <span className="text-sm text-zinc-500 shrink-0">{label}</span>
+        <span className={`text-sm font-semibold text-right truncate ${color}`}>{value}</span>
     </div>
 );
 
@@ -29,9 +28,9 @@ export default function DashboardPage() {
                     <div className="w-5 h-5 border-2 border-zinc-200 border-t-zinc-800 rounded-full animate-spin" />
                 </div>
             ) : (
-                <div className="flex gap-6 items-start">
+                <div className="flex flex-col md:flex-row gap-4 md:gap-6 items-start">
                     {/* Profile card */}
-                    <div className="w-72 shrink-0 bg-white rounded-xl border border-zinc-200 overflow-hidden">
+                    <div className="w-full md:w-72 md:shrink-0 bg-white rounded-xl border border-zinc-200 overflow-hidden">
                         <div className="px-6 pt-8 pb-5 text-center border-b border-zinc-100">
                             <div className="w-12 h-12 bg-zinc-900 rounded-full flex items-center justify-center text-white text-lg font-bold mx-auto mb-3">
                                 {gi?.name?.charAt(0).toUpperCase()}
@@ -53,12 +52,12 @@ export default function DashboardPage() {
                     </div>
 
                     {/* Feed */}
-                    <div className="flex-1 space-y-4">
-                        <div className="bg-white rounded-xl border border-zinc-200 p-6">
+                    <div className="w-full flex-1 min-w-0 space-y-4">
+                        <div className="bg-white rounded-xl border border-zinc-200 p-5 md:p-6">
                             <p className="text-sm font-semibold text-zinc-900 mb-4">Announcements</p>
                             <p className="text-sm text-zinc-400 text-center py-8">No announcements at the moment.</p>
                         </div>
-                        <div className="bg-white rounded-xl border border-zinc-200 p-6">
+                        <div className="bg-white rounded-xl border border-zinc-200 p-5 md:p-6">
                             <p className="text-sm font-semibold text-zinc-900 mb-4">Tasks</p>
                             <p className="text-sm text-zinc-400 text-center py-8">No tasks assigned to you.</p>
                         </div>
