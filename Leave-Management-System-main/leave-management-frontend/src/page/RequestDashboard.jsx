@@ -19,7 +19,7 @@ const STATUS_LABEL = {
 };
 
 const Badge = ({ status }) => (
-    <span className={`inline-block px-2 py-0.5 rounded text-[11px] font-semibold ${STATUS_STYLE[status] ?? "bg-zinc-100 text-zinc-500"}`}>
+    <span className={`inline-block px-2 py-0.5 rounded text-[11px] font-semibold whitespace-nowrap ${STATUS_STYLE[status] ?? "bg-zinc-100 text-zinc-500"}`}>
         {STATUS_LABEL[status] ?? status}
     </span>
 );
@@ -66,6 +66,8 @@ export default function RequestDashboard() {
         try { await cancelLeaveRequest(id); load(); } catch {}
     };
 
+    const cancellable = (status) => ["pending_supervisor", "pending_hr", "approved"].includes(status);
+
     return (
         <DashboardLayout notifications={notifications} unreadCount={unreadCount} fetchNotifications={fetchNotifications}>
             <div className="space-y-6">
@@ -84,21 +86,21 @@ export default function RequestDashboard() {
                 )}
 
                 {/* Header row */}
-                <div className="flex items-center justify-between">
+                <div className="flex items-center justify-between gap-3">
                     <p className="text-sm font-semibold text-zinc-900">My Requests</p>
                     <button onClick={() => setShowForm(v => !v)}
-                        className="px-3 py-1.5 bg-zinc-900 hover:bg-zinc-800 text-white text-xs font-medium rounded-md transition">
+                        className="px-3 py-1.5 bg-zinc-900 hover:bg-zinc-800 text-white text-xs font-medium rounded-md transition shrink-0">
                         {showForm ? "Close" : "+ New Request"}
                     </button>
                 </div>
 
                 {/* Form */}
                 {showForm && (
-                    <div className="bg-white rounded-xl border border-zinc-200 p-6">
+                    <div className="bg-white rounded-xl border border-zinc-200 p-4 sm:p-6">
                         <p className="text-sm font-semibold text-zinc-900 mb-4">New Leave Request</p>
                         {error && <p className="mb-4 text-xs text-red-600 bg-red-50 border border-red-200 rounded px-3 py-2">{error}</p>}
-                        <form onSubmit={submit} className="grid grid-cols-2 gap-4">
-                            <div className="col-span-2 sm:col-span-1 space-y-1">
+                        <form onSubmit={submit} className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div className="space-y-1">
                                 <label className="text-xs font-medium text-zinc-700">Leave Type</label>
                                 <select required value={form.leave_type_id}
                                     onChange={e => setForm(f => ({ ...f, leave_type_id: e.target.value }))}
@@ -107,7 +109,7 @@ export default function RequestDashboard() {
                                     {types.map(t => <option key={t.id} value={t.id}>{t.name}</option>)}
                                 </select>
                             </div>
-                            <div className="col-span-2 sm:col-span-1" />
+                            <div className="hidden sm:block" />
                             <div className="space-y-1">
                                 <label className="text-xs font-medium text-zinc-700">Start Date</label>
                                 <input type="date" required value={form.start_date}
@@ -120,15 +122,15 @@ export default function RequestDashboard() {
                                     onChange={e => setForm(f => ({ ...f, end_date: e.target.value }))}
                                     className="w-full px-3 py-2 text-sm border border-zinc-300 rounded-md outline-none focus:border-zinc-500 focus:ring-2 focus:ring-zinc-200" />
                             </div>
-                            <div className="col-span-2 space-y-1">
+                            <div className="sm:col-span-2 space-y-1">
                                 <label className="text-xs font-medium text-zinc-700">Reason <span className="text-zinc-400 font-normal">(optional)</span></label>
                                 <textarea rows={2} value={form.reason}
                                     onChange={e => setForm(f => ({ ...f, reason: e.target.value }))}
                                     className="w-full px-3 py-2 text-sm border border-zinc-300 rounded-md outline-none focus:border-zinc-500 focus:ring-2 focus:ring-zinc-200 resize-none" />
                             </div>
-                            <div className="col-span-2 flex justify-end">
+                            <div className="sm:col-span-2 flex justify-end">
                                 <button type="submit" disabled={submitting}
-                                    className="px-4 py-2 bg-zinc-900 hover:bg-zinc-800 text-white text-sm font-medium rounded-md transition disabled:opacity-60">
+                                    className="w-full sm:w-auto px-4 py-2 bg-zinc-900 hover:bg-zinc-800 text-white text-sm font-medium rounded-md transition disabled:opacity-60">
                                     {submitting ? "Submitting…" : "Submit Request"}
                                 </button>
                             </div>
@@ -136,44 +138,80 @@ export default function RequestDashboard() {
                     </div>
                 )}
 
-                {/* Table */}
+                {/* Requests */}
                 {loading ? (
                     <div className="flex justify-center py-12"><div className="w-5 h-5 border-2 border-zinc-200 border-t-zinc-800 rounded-full animate-spin" /></div>
                 ) : requests.length === 0 ? (
                     <div className="bg-white rounded-xl border border-zinc-200 p-10 text-center text-sm text-zinc-400">No leave requests yet.</div>
                 ) : (
-                    <div className="bg-white rounded-xl border border-zinc-200 overflow-hidden">
-                        <table className="w-full text-left text-sm">
-                            <thead className="bg-zinc-50 border-b border-zinc-100">
-                                <tr>{["Type", "Period", "Days", "Status", "Reason", ""].map(h => (
-                                    <th key={h} className="px-4 py-3 text-[11px] font-semibold text-zinc-500 uppercase tracking-wider">{h}</th>
-                                ))}</tr>
-                            </thead>
-                            <tbody className="divide-y divide-zinc-50">
-                                {requests.map(r => (
-                                    <tr key={r.id} className="hover:bg-zinc-50 transition-colors">
-                                        <td className="px-4 py-3 font-medium text-zinc-800">{r.leave_type}</td>
-                                        <td className="px-4 py-3 text-zinc-500 whitespace-nowrap">{r.start_date} → {r.end_date}</td>
-                                        <td className="px-4 py-3 text-zinc-500">{r.days_count}</td>
-                                        <td className="px-4 py-3"><Badge status={r.status} /></td>
-                                        <td className="px-4 py-3 text-zinc-400 max-w-xs truncate">
+                    <>
+                        {/* ── Mobile: card list ─────────────────────────── */}
+                        <div className="md:hidden space-y-2">
+                            {requests.map(r => (
+                                <div key={r.id} className="bg-white rounded-xl border border-zinc-200 p-4">
+                                    <div className="flex items-start justify-between gap-2">
+                                        <div className="min-w-0">
+                                            <p className="font-medium text-zinc-800 text-sm">{r.leave_type}</p>
+                                            <p className="text-xs text-zinc-500 mt-0.5">{r.start_date} → {r.end_date}</p>
+                                        </div>
+                                        <Badge status={r.status} />
+                                    </div>
+                                    <div className="flex items-center justify-between mt-3 pt-3 border-t border-zinc-100">
+                                        <p className="text-xs text-zinc-400 truncate pr-2">
                                             {r.rejection_reason
                                                 ? <span className="text-red-500">{r.rejection_reason}</span>
-                                                : r.reason || "—"}
-                                        </td>
-                                        <td className="px-4 py-3">
-                                            {["pending_supervisor", "pending_hr", "approved"].includes(r.status) && (
+                                                : (r.reason || "No reason given")}
+                                        </p>
+                                        <div className="flex items-center gap-3 shrink-0">
+                                            <span className="text-xs text-zinc-500">{r.days_count}d</span>
+                                            {cancellable(r.status) && (
                                                 <button onClick={() => cancel(r.id)}
                                                     className="text-xs text-zinc-400 hover:text-red-500 transition-colors">
                                                     Cancel
                                                 </button>
                                             )}
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+
+                        {/* ── Desktop: table ────────────────────────────── */}
+                        <div className="hidden md:block bg-white rounded-xl border border-zinc-200 overflow-hidden">
+                            <div className="overflow-x-auto">
+                                <table className="w-full text-left text-sm">
+                                    <thead className="bg-zinc-50 border-b border-zinc-100">
+                                        <tr>{["Type", "Period", "Days", "Status", "Reason", ""].map(h => (
+                                            <th key={h} className="px-4 py-3 text-[11px] font-semibold text-zinc-500 uppercase tracking-wider whitespace-nowrap">{h}</th>
+                                        ))}</tr>
+                                    </thead>
+                                    <tbody className="divide-y divide-zinc-50">
+                                        {requests.map(r => (
+                                            <tr key={r.id} className="hover:bg-zinc-50 transition-colors">
+                                                <td className="px-4 py-3 font-medium text-zinc-800">{r.leave_type}</td>
+                                                <td className="px-4 py-3 text-zinc-500 whitespace-nowrap">{r.start_date} → {r.end_date}</td>
+                                                <td className="px-4 py-3 text-zinc-500">{r.days_count}</td>
+                                                <td className="px-4 py-3"><Badge status={r.status} /></td>
+                                                <td className="px-4 py-3 text-zinc-400 max-w-xs truncate">
+                                                    {r.rejection_reason
+                                                        ? <span className="text-red-500">{r.rejection_reason}</span>
+                                                        : r.reason || "—"}
+                                                </td>
+                                                <td className="px-4 py-3">
+                                                    {cancellable(r.status) && (
+                                                        <button onClick={() => cancel(r.id)}
+                                                            className="text-xs text-zinc-400 hover:text-red-500 transition-colors">
+                                                            Cancel
+                                                        </button>
+                                                    )}
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </>
                 )}
             </div>
         </DashboardLayout>
