@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { Html5QrcodeScanner } from 'html5-qrcode';
+import { Html5Qrcode } from 'html5-qrcode';
 import { scanQrToken } from '../services/Qr';
 import { useNotifications } from "../hooks/useNotifications";
 import DashboardLayout from '../layouts/DashboardLayout';
@@ -9,31 +9,39 @@ const QrScanner = () => {
     const [scanResult, setScanResult] = useState(null);
     const [scanError, setScanError] = useState(null);
     const [isProcessing, setIsProcessing] = useState(false);
-    const scannerRef = useRef(null);
-    const initializedRef = useRef(false); // prevents StrictMode double-init
+    
+    const html5QrcodeRef = useRef(null);
+    const initializedRef = useRef(false);
 
     useEffect(() => {
         if (initializedRef.current) return;
         initializedRef.current = true;
 
-        // Safety net: clear any leftover DOM from a previous instance
-        const readerEl = document.getElementById('reader');
-        if (readerEl) readerEl.innerHTML = '';
+        const qrCodeId = "reader";
+        const html5Qrcode = new Html5Qrcode(qrCodeId);
+        html5QrcodeRef.current = html5Qrcode;
 
-        const scanner = new Html5QrcodeScanner('reader', {
-            fps: 10,
-            qrbox: { width: 250, height: 250 },
-            rememberLastUsedCamera: true,
-            supportedScanTypes: [0]
+        const config = { 
+            fps: 10, 
+            qrbox: { width: 250, height: 250 } 
+        };
+
+        // Automatically start the camera stream using the back/environment camera
+        html5Qrcode.start(
+            { facingMode: "environment" }, 
+            config, 
+            onScanSuccess, 
+            onScanFailure
+        ).catch((err) => {
+            console.error("Camera start error:", err);
+            setScanError("Impossible d'accéder à la caméra. Vérifiez les permissions.");
         });
 
-        scanner.render(onScanSuccess, onScanFailure);
-        scannerRef.current = scanner;
-
         return () => {
-            if (scannerRef.current) {
-                scannerRef.current.clear().catch((err) => console.error("Failed to clear scanner:", err));
-                scannerRef.current = null;
+            if (html5QrcodeRef.current && html5QrcodeRef.current.isScanning) {
+                html5QrcodeRef.current.stop().then(() => {
+                    html5QrcodeRef.current.clear();
+                }).catch((err) => console.error("Failed to stop scanner:", err));
             }
             initializedRef.current = false;
         };
@@ -46,8 +54,9 @@ const QrScanner = () => {
         setScanError(null);
         setScanResult(null);
 
-        if (scannerRef.current) {
-            scannerRef.current.pause(true);
+        // Pause scanning while processing request
+        if (html5QrcodeRef.current && html5QrcodeRef.current.isScanning) {
+            html5QrcodeRef.current.pause(true);
         }
 
         try {
@@ -65,14 +74,14 @@ const QrScanner = () => {
     };
 
     const onScanFailure = (error) => {
-        console.log('faillescan', error)
+        // Silent catch for frame scan iterations
     };
 
     const handleReset = () => {
         setScanResult(null);
         setScanError(null);
-        if (scannerRef.current) {
-            scannerRef.current.resume();
+        if (html5QrcodeRef.current) {
+            html5QrcodeRef.current.resume();
         }
     };
 
@@ -118,7 +127,7 @@ const QrScanner = () => {
 };
 
 const styles = {
-    container: { display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh', backgroundColor: '#f9fafb', fontFamily: 'system-ui, sans-serif', padding: '16px' },
+    container: { display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '80vh', backgroundColor: '#f9fafb', fontFamily: 'system-ui, sans-serif', padding: '16px' },
     card: { backgroundColor: '#ffffff', borderRadius: '16px', padding: '24px', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)', textAlign: 'center', maxWidth: '400px', width: '100%' },
     title: { fontSize: '22px', fontWeight: '700', color: '#111827', margin: '0 0 4px 0' },
     subtitle: { fontSize: '14px', color: '#6b7280', margin: '0 0 24px 0', lineHeight: '1.4' },
